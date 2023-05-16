@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refactoring</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .ul {
+            list-style: none;
+        }
+
+        .child-li {
+            height: 50px;
+            border: 1px solid black;
+            margin: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            background-color: cadetblue;
+            color: aliceblue;
+            font-size: larger;
+            font-family: sans-serif;
+            text-transform: capitalize;
+        }
+
+        .delete-btn {
+            color: aliceblue;
+            background-color: brown;
+            border: 1px solid brown;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="d1">
+
+    </div>
+    <script type="text/babel">
+
+        class ChildTodo extends React.Component {
+            render(){
+                return (
+                    <li className="child-li">
+                        {this.props.todo}
+                        <button onClick={this.props.deletetodo} className="delete-btn">delete</button>
+                        </li>
+                )
+            }
+        }
+
+        class TodoList extends React.Component {
+            constructor(){
+                super();
+                this.state={
+                    todos:['Exercise', 'breakfast', 'book', 'office']
+                }
+            }
+
+            deletetodo = (index)=>{
+                var temp = this.state.todos;
+                temp.splice(index, 1);
+                this.setState({todos:[...temp]})
+            }
+            render(){
+                return(
+                    <div>
+                        <h2>Well come to Refactoring</h2>
+                        <div>
+                            <ul className="ul">
+                                {this.state.todos.map((todo, index)=>{
+                                    return <ChildTodo todo={todo}  deletetodo={()=>{this.deletetodo(index)}}></ChildTodo>
+                                })}
+                            </ul>
+                        </div>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<TodoList/>, document.getElementById('d1'));
+    </script>
+</body>
+
+</html>
